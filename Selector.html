@@ -422,7 +422,7 @@
       width:36px; height:36px; border-radius:8px; overflow:visible; display:flex; align-items:center; justify-content:center;
       display:inline-flex;
     }
-    .star-logo img { width:28px; height:28px; display:block; object-fit:contain; transition: filter .5s ease, opacity .5s ease, transform 1.6s cubic-bezier(0.4,0,0.2,1); }
+    .star-logo img { width:28px; height:28px; display:block; object-fit:contain; transition: filter .5s ease, opacity .5s ease; }
 
     .hotel-segment { display:inline-flex; gap:8px; align-items:center; }
     .hotel-segment .hotel-btn {
@@ -651,30 +651,14 @@
       height:210px;
       background:#000;
       box-shadow:0 14px 36px rgba(0,0,0,0.22);
-      transition: transform .22s ease, box-shadow .22s ease;
+      transition: transform .28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow .28s ease;
       border: none;
       isolation: isolate;
       transform: translateZ(0);
     }
 
-    @keyframes cardBounceHover {
-      0%   { transform: translateY(0) scale(1); }
-      40%  { transform: translateY(-10px) scale(1.025); }
-      65%  { transform: translateY(-5px) scale(1.015); }
-      80%  { transform: translateY(-8px) scale(1.02); }
-      100% { transform: translateY(-8px) scale(1.02); }
-    }
-
-    @keyframes cardBounceHoverSubtle {
-      0%   { transform: translateY(0) scale(1); }
-      40%  { transform: translateY(-9px) scale(1.015); }
-      65%  { transform: translateY(-4px) scale(1.008); }
-      80%  { transform: translateY(-6px) scale(1.012); }
-      100% { transform: translateY(-6px) scale(1.012); }
-    }
-
     .gallery-item:hover {
-      animation: cardBounceHoverSubtle 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards;
+      transform: translateY(-6px);
       box-shadow:
         0 28px 64px rgba(0,0,0,0.36),
         0 0 0 2.5px rgba(255,255,255,0.95),
@@ -968,7 +952,7 @@
         0 0 0 1.5px rgba(255,255,255,0.20),
         0 0 40px 10px rgba(255,255,255,0.28),
         0 0 80px 22px rgba(255,255,255,0.12);
-      transition: transform .22s ease, box-shadow .22s ease, filter .22s ease;
+      transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.28s ease, filter 0.28s ease;
       cursor: pointer;
       background: transparent;
       max-height: 86vh;
@@ -976,7 +960,7 @@
     .modal .menu-image.single { width: 74%; }
 
     .modal .menu-image:hover {
-      animation: cardBounceHover 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards;
+      transform: translateY(-8px) scale(1.02);
       box-shadow:
         0 34px 72px rgba(0,0,0,0.52),
         0 0 0 2px rgba(255,255,255,0.35),
@@ -1439,11 +1423,11 @@
     0 8px 24px rgba(0,0,0,0.3),
     0 0 0 1px rgba(255,255,255,0.15),
     0 0 20px 4px rgba(255,255,255,0.18);
-  transition: transform .22s ease, box-shadow .22s ease;
+  transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.28s ease, filter 0.28s ease;
 }
 
 .joia-item .menu-image:hover {
-  animation: cardBounceHover 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  transform: translateY(-4px) scale(1.01);
   box-shadow:
     0 16px 40px rgba(0,0,0,0.4),
     0 0 0 1.5px rgba(255,255,255,0.30),
@@ -1497,11 +1481,11 @@
     0 8px 24px rgba(0,0,0,0.3),
     0 0 0 1px rgba(255,255,255,0.15),
     0 0 20px 4px rgba(255,255,255,0.18);
-  transition: transform .22s ease, box-shadow .22s ease, filter .22s ease !important;
+  transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.28s ease, filter 0.28s ease !important;
 }
 
 .lm-menu-card .menu-image:hover {
-  animation: cardBounceHover 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards !important;
+  transform: translateY(-6px) scale(1.01);
   box-shadow:
     0 16px 40px rgba(0,0,0,0.4),
     0 0 0 1.5px rgba(255,255,255,0.30),
@@ -1539,11 +1523,11 @@
     0 8px 24px rgba(0,0,0,0.3),
     0 0 0 1px rgba(255,255,255,0.15),
     0 0 20px 4px rgba(255,255,255,0.18);
-  transition: transform .22s ease, box-shadow .22s ease, filter .22s ease !important;
+  transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.28s ease, filter 0.28s ease !important;
 }
 
 .mb-menu-wrap .menu-image:hover {
-  animation: cardBounceHover 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards !important;
+  transform: translateY(-8px) scale(1.02);
   box-shadow:
     0 34px 72px rgba(0,0,0,0.52),
     0 0 0 1.5px rgba(255,255,255,0.30),
@@ -1624,7 +1608,7 @@ button:focus, .gallery-item:focus, .sort-btn:focus, .menu-btn:focus { outline: 3
   position: absolute;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 100px;
   pointer-events: none;
   z-index: 10;
   transition: opacity 0.3s ease;
@@ -1632,13 +1616,25 @@ button:focus, .gallery-item:focus, .sort-btn:focus, .menu-btn:focus { outline: 3
 
 .menu-scroll-fade-wrap::before {
   top: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, transparent 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.72) 0%,
+    rgba(0,0,0,0.45) 30%,
+    rgba(0,0,0,0.15) 65%,
+    transparent 100%
+  );
   opacity: 0;
 }
 
 .menu-scroll-fade-wrap::after {
   bottom: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.72) 0%,
+    rgba(0,0,0,0.45) 30%,
+    rgba(0,0,0,0.15) 65%,
+    transparent 100%
+  );
   opacity: 1;
 }
 
@@ -1852,20 +1848,20 @@ body.dark .msg-gen-btn.active {
 }
 
 @keyframes copyRippleIn  { from { transform: translate(-50%,-50%) scale(0); } to { transform: translate(-50%,-50%) scale(4); } }
-@keyframes copyRippleOut { from { transform: translate(-50%,-50%) scale(4); } to { transform: translate(-50%,-50%) scale(0); } }
+@keyframes copyRippleOut { from { transform: translate(-50%,-50%) scale(4); opacity: 1; } to { transform: translate(-50%,-50%) scale(0); opacity: 0; } }
 
 .copy-ripple {
   position: absolute;
   top: 50%; left: 50%;
   width: 100%; height: 100%;
-  background: radial-gradient(circle, rgba(16,185,129,0.95) 0%, rgba(16,185,129,0.6) 50%, rgba(16,185,129,0) 100%);
+  background: radial-gradient(circle, rgba(16,185,129,0.85) 0%, rgba(16,185,129,0.55) 30%, rgba(16,185,129,0.25) 60%, rgba(16,185,129,0) 80%);
   border-radius: 50%;
   pointer-events: none;
   z-index: 0;
   transform: translate(-50%,-50%) scale(0);
 }
-.copy-ripple.in  { animation: copyRippleIn  0.65s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
-.copy-ripple.out { animation: copyRippleOut 0.55s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
+.copy-ripple.in  { animation: copyRippleIn  1.1s  cubic-bezier(0.22,0.61,0.36,1) forwards; }
+.copy-ripple.out { animation: copyRippleOut 0.85s cubic-bezier(0.22,0.61,0.36,1) forwards; }
 
 .msg-gen-alert {
   position: fixed;
