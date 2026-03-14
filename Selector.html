@@ -952,7 +952,7 @@
         0 0 0 1.5px rgba(255,255,255,0.20),
         0 0 40px 10px rgba(255,255,255,0.28),
         0 0 80px 22px rgba(255,255,255,0.12);
-      transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.28s ease, filter 0.28s ease;
+      transition: box-shadow 0.28s ease, filter 0.28s ease;
       cursor: pointer;
       background: transparent;
       max-height: 86vh;
@@ -960,7 +960,6 @@
     .modal .menu-image.single { width: 74%; }
 
     .modal .menu-image:hover {
-      transform: translateY(-8px) scale(1.02);
       box-shadow:
         0 34px 72px rgba(0,0,0,0.52),
         0 0 0 2px rgba(255,255,255,0.35),
@@ -1371,6 +1370,7 @@
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
+  overflow: visible;
 }
 
 .joia-col {
@@ -1383,6 +1383,7 @@
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
+  overflow: visible;
 }
 
 .joia-col-title {
@@ -1402,6 +1403,7 @@
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
+  overflow: visible;
 }
 
 .joia-item-label {
@@ -1427,11 +1429,10 @@
     0 8px 24px rgba(0,0,0,0.3),
     0 0 0 1px rgba(255,255,255,0.15),
     0 0 20px 4px rgba(255,255,255,0.18);
-  transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.28s ease, filter 0.28s ease;
+  transition: box-shadow 0.28s ease, filter 0.28s ease;
 }
 
 .joia-item .menu-image:hover {
-  transform: translateY(-5px) scale(1.01);
   box-shadow:
     0 16px 40px rgba(0,0,0,0.4),
     0 0 0 1.5px rgba(255,255,255,0.30),
@@ -1449,6 +1450,7 @@
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
+  overflow: visible;
 }
 
 .lm-menu-col {
@@ -1459,6 +1461,7 @@
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
+  overflow: visible;
 }
 
 .lm-menu-course-label {
@@ -1485,11 +1488,10 @@
     0 8px 24px rgba(0,0,0,0.3),
     0 0 0 1px rgba(255,255,255,0.15),
     0 0 20px 4px rgba(255,255,255,0.18);
-  transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.28s ease, filter 0.28s ease !important;
+  transition: box-shadow 0.28s ease, filter 0.28s ease !important;
 }
 
 .lm-menu-card .menu-image:hover {
-  transform: translateY(-6px) scale(1.01);
   box-shadow:
     0 16px 40px rgba(0,0,0,0.4),
     0 0 0 1.5px rgba(255,255,255,0.30),
@@ -1527,11 +1529,10 @@
     0 8px 24px rgba(0,0,0,0.3),
     0 0 0 1px rgba(255,255,255,0.15),
     0 0 20px 4px rgba(255,255,255,0.18);
-  transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.28s ease, filter 0.28s ease !important;
+  transition: box-shadow 0.28s ease, filter 0.28s ease !important;
 }
 
 .mb-menu-wrap .menu-image:hover {
-  transform: translateY(-8px) scale(1.02);
   box-shadow:
     0 34px 72px rgba(0,0,0,0.52),
     0 0 0 1.5px rgba(255,255,255,0.30),
@@ -1860,6 +1861,20 @@ body.dark .msg-gen-btn.active {
 @keyframes copyRippleOut {
   from { transform: translate(-50%,-50%) scale(4); opacity: 1; }
   to   { transform: translate(-50%,-50%) scale(0); opacity: 0; }
+}
+
+@keyframes imgBounceHover {
+  0%   { transform: translateY(0) scale(1); }
+  40%  { transform: translateY(-10px) scale(1.025); }
+  65%  { transform: translateY(-4px) scale(1.015); }
+  80%  { transform: translateY(-8px) scale(1.022); }
+  100% { transform: translateY(-7px) scale(1.02); }
+}
+
+@keyframes imgBounceLeave {
+  0%   { transform: translateY(-7px) scale(1.02); }
+  50%  { transform: translateY(2px) scale(0.998); }
+  100% { transform: translateY(0) scale(1); }
 }
 
 .copy-ripple {
@@ -4899,6 +4914,24 @@ function initMenuScrollFade(scrollEl, wrapEl) {
   scrollEl.addEventListener('scroll', update, { passive: true });
   update();
 }
+
+// ===== IMAGE BOUNCE: event delegation for .menu-image hover animation =====
+// Using capture phase so it fires even inside overlays/modals with dynamically created images
+document.addEventListener('mouseenter', function(e) {
+  if (e.target.classList && e.target.classList.contains('menu-image')) {
+    e.target.style.animation = 'none';
+    void e.target.offsetWidth; // force reflow to reset animation before applying new one
+    e.target.style.animation = 'imgBounceHover 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+  }
+}, true);
+
+document.addEventListener('mouseleave', function(e) {
+  if (e.target.classList && e.target.classList.contains('menu-image')) {
+    e.target.style.animation = 'none';
+    void e.target.offsetWidth; // force reflow to reset animation before applying new one
+    e.target.style.animation = 'imgBounceLeave 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+  }
+}, true);
 
   </script>
 </body>
