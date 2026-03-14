@@ -356,6 +356,29 @@
       max-height: none;
     }
 
+    /* ===== POPOUT / APPS SCRIPT WINDOW MODE ===== */
+    body.layout-popout .wrap {
+      padding: 8px;
+      align-items: stretch;
+    }
+
+    body.layout-popout .panel {
+      width: min(1130px, 98vw);
+      max-width: 98vw;
+      height: calc(100vh - 16px);
+      max-height: calc(100vh - 16px);
+      min-height: unset;
+      flex: 1;
+    }
+
+    body.layout-popout .filters {
+      max-height: none;
+    }
+
+    body.layout-popout .message-generator {
+      max-height: none;
+    }
+
     /* ===== RESPONSIVE: small screens ===== */
     @media (max-width: 900px) {
       .layout-controls {
@@ -2778,8 +2801,11 @@ body.dark .filter-group-card {
       <button type="button" id="btnLayoutFull" class="layout-btn" title="Pantalla completa" aria-label="Pantalla completa" aria-pressed="false">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 3h6v2H5v4H3V3zm12 0h6v6h-2V5h-4V3zM3 15h2v4h4v2H3v-6zm16 4h-4v2h6v-6h-2v4z"/></svg>
       </button>
-      <button type="button" id="btnLayoutFloat" class="layout-btn" title="Ventana flotante" aria-label="Ventana flotante" aria-pressed="false">
+      <button type="button" id="btnLayoutFloat" class="layout-btn" title="Pantalla mediana" aria-label="Pantalla mediana" aria-pressed="false">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>
+      </button>
+      <button type="button" id="btnLayoutPopout" class="layout-btn" title="Pantalla mínima" aria-label="Pantalla mínima" aria-pressed="false">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
       </button>
       <button type="button" id="btnZoomIn" class="layout-btn" title="Acercar zoom" aria-label="Acercar zoom">+</button>
       <span id="zoomValue" class="zoom-value" aria-live="polite" aria-label="Nivel de zoom">100%</span>
@@ -3301,8 +3327,29 @@ body.dark .filter-group-card {
         });
       });
 
+      // Botón Pantalla mínima — abre ventana flotante 1154×776
+      const btnPopout = document.getElementById('btnLayoutPopout');
+      if (btnPopout) {
+        btnPopout.addEventListener('click', function() {
+          const w = 1154, h = 776;
+          const left = Math.round((screen.width - w) / 2);
+          const top = Math.round((screen.height - h) / 2);
+          window.open(window.location.href, '_blank',
+            'width=' + w + ',height=' + h + ',left=' + left + ',top=' + top +
+            ',resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,status=no'
+          );
+        });
+      }
+
       // Siempre iniciar en modo flotante al cargar
       applyFullState(false);
+    })();
+
+    // Auto-detectar ventana pequeña (Apps Script dialog ≤1160×790) y aplicar layout-popout
+    (function autoDetectPopout() {
+      if (window.innerWidth <= 1160 && window.innerHeight <= 790) {
+        document.body.classList.add('layout-popout');
+      }
     })();
 
     // ===== ZOOM INTERNO =====
