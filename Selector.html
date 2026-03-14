@@ -423,7 +423,6 @@
       display:inline-flex;
     }
     .star-logo img { width:28px; height:28px; display:block; object-fit:contain; transition: filter .5s ease, opacity .5s ease, transform 1.6s cubic-bezier(0.4,0,0.2,1); }
-    .star-logo:hover img { transform: rotate(180deg); }
 
     .hotel-segment { display:inline-flex; gap:8px; align-items:center; }
     .hotel-segment .hotel-btn {
@@ -657,8 +656,25 @@
       isolation: isolate;
       transform: translateZ(0);
     }
+
+    @keyframes cardBounceHover {
+      0%   { transform: translateY(0) scale(1); }
+      40%  { transform: translateY(-10px) scale(1.025); }
+      65%  { transform: translateY(-5px) scale(1.015); }
+      80%  { transform: translateY(-8px) scale(1.02); }
+      100% { transform: translateY(-8px) scale(1.02); }
+    }
+
+    @keyframes cardBounceHoverSubtle {
+      0%   { transform: translateY(0) scale(1); }
+      40%  { transform: translateY(-9px) scale(1.015); }
+      65%  { transform: translateY(-4px) scale(1.008); }
+      80%  { transform: translateY(-6px) scale(1.012); }
+      100% { transform: translateY(-6px) scale(1.012); }
+    }
+
     .gallery-item:hover {
-      transform: translateY(-6px);
+      animation: cardBounceHoverSubtle 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards;
       box-shadow:
         0 28px 64px rgba(0,0,0,0.36),
         0 0 0 2.5px rgba(255,255,255,0.95),
@@ -960,7 +976,7 @@
     .modal .menu-image.single { width: 74%; }
 
     .modal .menu-image:hover {
-      transform: translateY(-8px) scale(1.02);
+      animation: cardBounceHover 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards;
       box-shadow:
         0 34px 72px rgba(0,0,0,0.52),
         0 0 0 2px rgba(255,255,255,0.35),
@@ -1427,7 +1443,7 @@
 }
 
 .joia-item .menu-image:hover {
-  transform: translateY(-4px) scale(1.01);
+  animation: cardBounceHover 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards;
   box-shadow:
     0 16px 40px rgba(0,0,0,0.4),
     0 0 0 1.5px rgba(255,255,255,0.30),
@@ -1485,7 +1501,7 @@
 }
 
 .lm-menu-card .menu-image:hover {
-  transform: translateY(-6px) scale(1.01) !important;
+  animation: cardBounceHover 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards !important;
   box-shadow:
     0 16px 40px rgba(0,0,0,0.4),
     0 0 0 1.5px rgba(255,255,255,0.30),
@@ -1527,7 +1543,7 @@
 }
 
 .mb-menu-wrap .menu-image:hover {
-  transform: translateY(-8px) scale(1.02) !important;
+  animation: cardBounceHover 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards !important;
   box-shadow:
     0 34px 72px rgba(0,0,0,0.52),
     0 0 0 1.5px rgba(255,255,255,0.30),
@@ -1592,6 +1608,48 @@ button:focus, .gallery-item:focus, .sort-btn:focus, .menu-btn:focus { outline: 3
 #brandLogo {
   transition: filter 0.06s ease, opacity 0.06s ease, transform 0.9s cubic-bezier(0.4,0,0.2,1);
 }
+
+/* ===== DEGRADADO DE SCROLL EN MODALES DE MENÚ ===== */
+.menu-scroll-fade-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-scroll-fade-wrap::before,
+.menu-scroll-fade-wrap::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 60px;
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 0.3s ease;
+}
+
+.menu-scroll-fade-wrap::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, transparent 100%);
+  opacity: 0;
+}
+
+.menu-scroll-fade-wrap::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
+  opacity: 1;
+}
+
+.menu-scroll-fade-wrap.fade-top::before    { opacity: 1; }
+.menu-scroll-fade-wrap.fade-top::after     { opacity: 1; }
+.menu-scroll-fade-wrap.fade-bottom-only::before { opacity: 0; }
+.menu-scroll-fade-wrap.fade-bottom-only::after  { opacity: 1; }
+.menu-scroll-fade-wrap.fade-top-only::before    { opacity: 1; }
+.menu-scroll-fade-wrap.fade-top-only::after     { opacity: 0; }
+.menu-scroll-fade-wrap.fade-none::before   { opacity: 0; }
+.menu-scroll-fade-wrap.fade-none::after    { opacity: 0; }
 
 /* ========== GENERADOR DE MENSAJES - CORREGIDO PARA 100% ZOOM ========== */
 .message-generator {
@@ -1800,14 +1858,14 @@ body.dark .msg-gen-btn.active {
   position: absolute;
   top: 50%; left: 50%;
   width: 100%; height: 100%;
-  background: #10b981;
+  background: radial-gradient(circle, rgba(16,185,129,0.95) 0%, rgba(16,185,129,0.6) 50%, rgba(16,185,129,0) 100%);
   border-radius: 50%;
   pointer-events: none;
   z-index: 0;
   transform: translate(-50%,-50%) scale(0);
 }
-.copy-ripple.in  { animation: copyRippleIn  0.38s cubic-bezier(0.4,0,0.2,1) forwards; }
-.copy-ripple.out { animation: copyRippleOut 0.38s cubic-bezier(0.4,0,0.2,1) forwards; }
+.copy-ripple.in  { animation: copyRippleIn  0.65s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
+.copy-ripple.out { animation: copyRippleOut 0.55s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
 
 .msg-gen-alert {
   position: fixed;
@@ -3927,7 +3985,13 @@ body.dark .filter-group-card {
       card.appendChild(enCol);
 
       content.appendChild(card);
-      root.appendChild(content);
+
+      const fadeWrap = document.createElement('div');
+      fadeWrap.className = 'menu-scroll-fade-wrap';
+      fadeWrap.appendChild(content);
+      root.appendChild(fadeWrap);
+
+      requestAnimationFrame(() => initMenuScrollFade(content, fadeWrap));
 
       const lmCloseBtn = document.createElement('button');
       lmCloseBtn.className = 'modal-close-btn';
@@ -4059,8 +4123,20 @@ body.dark .filter-group-card {
 
       controls.appendChild(toggleWrap);
 
+      const joiaFadeWrap = document.createElement('div');
+      joiaFadeWrap.className = 'menu-scroll-fade-wrap';
+      joiaFadeWrap.appendChild(content);
+
       root.appendChild(controls);
-      root.appendChild(content);
+      root.appendChild(joiaFadeWrap);
+
+      requestAnimationFrame(() => {
+        initMenuScrollFade(content, joiaFadeWrap);
+        // Re-init after toggle changes the content
+        toggleWrap.querySelector('#joiaDietToggle').addEventListener('change', () => {
+          setTimeout(() => initMenuScrollFade(content, joiaFadeWrap), 360);
+        });
+      });
 
       const joiaCloseBtn = document.createElement('button');
       joiaCloseBtn.className = 'modal-close-btn';
@@ -4502,7 +4578,6 @@ body.dark .filter-group-card {
       }, 1800);
     }
     navigator.clipboard.writeText(message).then(() => {
-      showAlert();
       showSent();
     }).catch(err => {
       console.error('Error al copiar:', err);
@@ -4513,26 +4588,12 @@ body.dark .filter-group-card {
       textarea.select();
       document.execCommand('copy');
       document.body.removeChild(textarea);
-      showAlert();
       showSent();
     });
   }
 
-  // Mostrar alerta
-  function showAlert() {
-    let alert = document.getElementById('msgGenAlert');
-    if (!alert) {
-      alert = document.createElement('div');
-      alert.id = 'msgGenAlert';
-      alert.className = 'msg-gen-alert';
-      alert.textContent = '✓ Copiado';
-      document.body.appendChild(alert);
-    }
-    alert.classList.add('show');
-    setTimeout(() => {
-      alert.classList.remove('show');
-    }, 3000);
-  }
+  // Mostrar alerta (desactivada — el botón ya tiene su animación propia)
+  function showAlert() {}
 
   // Event listeners
   // ===== CARGAR REPRESENTANTES DINÁMICAMENTE =====
@@ -4794,6 +4855,41 @@ body.dark .filter-group-card {
   window.addEventListener('load', updateFade);
   window._updateResultsFade = updateFade;
 })();
+
+// ===== STAR LOGO: Giro continuo por mitades (nunca retrocede) =====
+(function initStarLogoRotation() {
+  const logo = document.getElementById('brandLogo');
+  if (!logo) return;
+  let totalRot = 0;
+  logo.parentElement.addEventListener('mouseenter', () => {
+    totalRot += 180;
+    logo.style.transform = `rotate(${totalRot}deg)`;
+  });
+  logo.parentElement.addEventListener('mouseleave', () => {
+    totalRot += 180;
+    logo.style.transform = `rotate(${totalRot}deg)`;
+  });
+})();
+
+// ===== MENU SCROLL FADE =====
+function initMenuScrollFade(scrollEl, wrapEl) {
+  function update() {
+    const atTop = scrollEl.scrollTop <= 4;
+    const atBottom = scrollEl.scrollTop + scrollEl.clientHeight >= scrollEl.scrollHeight - 4;
+    wrapEl.classList.remove('fade-top', 'fade-bottom-only', 'fade-top-only', 'fade-none');
+    if (atTop && atBottom) {
+      wrapEl.classList.add('fade-none');
+    } else if (atTop) {
+      wrapEl.classList.add('fade-bottom-only');
+    } else if (atBottom) {
+      wrapEl.classList.add('fade-top-only');
+    } else {
+      wrapEl.classList.add('fade-top');
+    }
+  }
+  scrollEl.addEventListener('scroll', update, { passive: true });
+  update();
+}
 
   </script>
 </body>
